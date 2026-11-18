@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Karate Tarma – Inscripciones, torneos y contacto</title>
+  <meta name="description" content="Academia de karate en Tarma, Junín. Precios de inscripción, próximos torneos, galería y contacto.">
+  <meta name="theme-color" content="#b3122a">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23b3122a'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='white'%3E空%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="nav" id="top">
+  <a class="brand" href="#inicio"><span class="logo">空</span><span id="brandName">Karate Tarma</span></a>
+  <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+  <nav id="menu">
+    <a href="#inscripcion">Inscripción</a>
+    <a href="#torneos">Torneos</a>
+    <a href="#galeria">Galería</a>
+    <a href="#contacto">Contacto</a>
+    <a class="btn btn-sm" href="#contacto">Inscríbete</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="inicio">
+    <div class="hero-kanji" aria-hidden="true">空手</div>
+    <div class="wrap hero-in">
+      <p class="eyebrow" id="heroCiudad">Tarma, Junín</p>
+      <h1>Forja tu <span>cuerpo</span>,<br>tu <span>mente</span> y tu <span>carácter</span></h1>
+      <p class="lead" id="heroLema"></p>
+      <div class="cta">
+        <a class="btn" href="#inscripcion">Ver precios</a>
+        <a class="btn btn-ghost" href="#torneos">Próximos torneos</a>
+      </div>
+      <ul class="stats">
+        <li><b>5+</b><span>Categorías</span></li>
+        <li><b>Todas</b><span>las edades</span></li>
+        <li><b>Torneos</b><span>regionales y nacionales</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" id="inscripcion">
+    <div class="wrap">
+      <h2 class="title"><small>Planes</small>Inscripción y mensualidad</h2>
+      <p class="sub">Matrícula única de <b id="matricula"></b> y luego la mensualidad según tu edad.</p>
+      <div class="cards" id="planes"></div>
+      <div class="note" id="notaPrecios"></div>
+    </div>
+  </section>
+
+  <section class="sec dark" id="torneos">
+    <div class="wrap">
+      <h2 class="title"><small>Competencias</small>Próximos torneos</h2>
+      <div class="timeline" id="listaTorneos"></div>
+      <h3 class="h3">Resultados recientes</h3>
+      <div class="results" id="listaResultados"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="galeria">
+    <div class="wrap">
+      <h2 class="title"><small>Momentos</small>Galería</h2>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="sec dark" id="contacto">
+    <div class="wrap two">
+      <div>
+        <h2 class="title"><small>Hablemos</small>Contacto</h2>
+        <ul class="info" id="info"></ul>
+        <div class="social" id="social"></div>
+      </div>
+      <form class="form" id="form">
+        <h3>Pide información</h3>
+        <label>Nombre<input name="nombre" required autocomplete="name"></label>
+        <label>Edad del alumno<input name="edad" type="number" min="3" max="99" required></label>
+        <label>Mensaje<textarea name="mensaje" rows="3" placeholder="Quiero inscribirme / más información"></textarea></label>
+        <button class="btn" type="submit">Enviar por WhatsApp</button>
+      </form>
+    </div>
+    <div class="wrap"><iframe class="map" id="mapa" title="Ubicación en Tarma" loading="lazy"></iframe></div>
+  </section>
+</main>
+
+<footer><p id="foot"></p></footer>
+
+<a class="wa" id="waFloat" target="_blank" rel="noopener" aria-label="WhatsApp">💬 <span>WhatsApp</span></a>
+
+<div class="lightbox" id="lb" hidden><button id="lbClose" aria-label="Cerrar">×</button><div id="lbBody"></div><p id="lbCap"></p></div>
+
+<script src="js/datos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
