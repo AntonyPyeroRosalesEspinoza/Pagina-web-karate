@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Karate Tarma – Inscripciones, torneos y contacto</title>
-  <meta name="description" content="Academia de karate en Tarma, Junín. Precios de inscripción, próximos torneos, galería y contacto.">
+  <title>Karate Tarma – Clases y tienda de karate</title>
+  <meta name="description" content="Academia de karate en Tarma, Junín. Clases lunes, miércoles y viernes por S/ 80 al mes. Tienda de karateguis, guantines, cinturones y protectores.">
   <meta name="theme-color" content="#b3122a">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23b3122a'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='white'%3E空%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/styles.css">
@@ -15,11 +15,12 @@
   <a class="brand" href="#inicio"><span class="logo">空</span><span id="brandName">Karate Tarma</span></a>
   <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
   <nav id="menu">
-    <a href="#inscripcion">Inscripción</a>
+    <a href="#clases">Clases</a>
+    <a href="#tienda">Tienda</a>
     <a href="#torneos">Torneos</a>
     <a href="#galeria">Galería</a>
     <a href="#contacto">Contacto</a>
-    <a class="btn btn-sm" href="#contacto">Inscríbete</a>
+    <a class="btn btn-sm" href="#clases">Inscríbete</a>
   </nav>
 </header>
 
@@ -31,23 +32,71 @@
       <h1>Forja tu <span>cuerpo</span>,<br>tu <span>mente</span> y tu <span>carácter</span></h1>
       <p class="lead" id="heroLema"></p>
       <div class="cta">
-        <a class="btn" href="#inscripcion">Ver precios</a>
-        <a class="btn btn-ghost" href="#torneos">Próximos torneos</a>
+        <a class="btn" href="#clases" id="ctaPrecio">Clases S/ 80 al mes</a>
+        <a class="btn btn-ghost" href="#tienda">Ver tienda</a>
       </div>
       <ul class="stats">
-        <li><b>5+</b><span>Categorías</span></li>
-        <li><b>Todas</b><span>las edades</span></li>
-        <li><b>Torneos</b><span>regionales y nacionales</span></li>
+        <li><b id="statPrecio">S/ 80</b><span>al mes</span></li>
+        <li><b id="statDias">Lun · Mié · Vie</b><span>3 clases por semana</span></li>
+        <li><b>Tienda</b><span>karateguis y protectores</span></li>
       </ul>
     </div>
   </section>
 
-  <section class="sec" id="inscripcion">
+  <!-- Dos mundos: clases y tienda -->
+  <section class="split">
+    <a class="half half-dojo rv" href="#clases">
+      <span class="half-k" aria-hidden="true">道場</span>
+      <small>El dojo</small>
+      <h2>Entrena con nosotros</h2>
+      <p id="splitClases">Lunes, miércoles y viernes · S/ 80 al mes</p>
+      <span class="half-go">Ver horarios →</span>
+    </a>
+    <a class="half half-shop rv" href="#tienda">
+      <span class="half-k" aria-hidden="true">道具</span>
+      <small>La tienda</small>
+      <h2>Equípate para ganar</h2>
+      <p>Karateguis 000 al 6 · guantines · cinturones · protectores</p>
+      <span class="half-go">Ver productos →</span>
+    </a>
+  </section>
+
+  <section class="sec" id="clases">
     <div class="wrap">
-      <h2 class="title"><small>Planes</small>Inscripción y mensualidad</h2>
-      <p class="sub">Matrícula única de <b id="matricula"></b> y luego la mensualidad según tu edad.</p>
-      <div class="cards" id="planes"></div>
-      <div class="note" id="notaPrecios"></div>
+      <h2 class="title"><small>Clases</small>Una mensualidad, todo incluido</h2>
+      <div class="plan">
+        <div class="plan-main rv">
+          <span class="plan-tag">Mensualidad</span>
+          <div class="plan-price"><span>S/</span><b id="precioClase">80</b><small>/ mes</small></div>
+          <div class="days" id="dias"></div>
+          <ul class="check" id="incluye"></ul>
+          <a class="btn btn-block" id="btnInscribir" target="_blank" rel="noopener">Quiero inscribirme</a>
+          <p class="plan-note" id="notaClases"></p>
+        </div>
+        <div class="plan-side rv">
+          <h3>Horarios por grupo</h3>
+          <div class="hours" id="horarios"></div>
+          <div class="pay">
+            <b>Formas de pago</b>
+            <span>💵 Efectivo en el dojo</span>
+            <span id="payYape">📱 Yape / Plin</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec shop" id="tienda">
+    <div class="wrap">
+      <h2 class="title"><small>Tienda</small>Equipo de karate</h2>
+      <p class="sub">Elige tu talla o color, agrega al pedido y envíalo por WhatsApp.</p>
+      <div class="filters" id="filtros"></div>
+      <div class="products" id="productos"></div>
+      <details class="sizes">
+        <summary>📏 Guía de tallas de karategi</summary>
+        <div class="sizes-tbl"><table><thead><tr><th>Talla</th><th>Estatura</th><th>Edad aprox.</th></tr></thead><tbody id="guia"></tbody></table></div>
+      </details>
+      <p class="note" id="notaTienda"></p>
     </div>
   </section>
 
@@ -86,9 +135,22 @@
   </section>
 </main>
 
-<footer><p id="foot"></p></footer>
+<footer><p id="foot"></p><a class="foot-link" href="panel.html">Panel del sensei</a></footer>
 
+<!-- Carrito -->
+<button class="cart-btn" id="cartBtn" aria-label="Ver pedido" hidden>🛒 <span id="cartCount">0</span></button>
 <a class="wa" id="waFloat" target="_blank" rel="noopener" aria-label="WhatsApp">💬 <span>WhatsApp</span></a>
+<div class="drawer-bg" id="drawerBg" hidden></div>
+<aside class="drawer" id="drawer" aria-label="Tu pedido" aria-hidden="true">
+  <div class="drawer-head"><h3>Tu pedido</h3><button id="drawerClose" aria-label="Cerrar">×</button></div>
+  <div class="drawer-body" id="cartList"></div>
+  <div class="drawer-foot">
+    <div class="total"><span>Total</span><b id="cartTotal">S/ 0</b></div>
+    <button class="btn btn-block" id="cartSend">Enviar pedido por WhatsApp</button>
+    <button class="link" id="cartClear">Vaciar pedido</button>
+  </div>
+</aside>
+<div class="toast" id="toast" role="status"></div>
 
 <div class="lightbox" id="lb" hidden><button id="lbClose" aria-label="Cerrar">×</button><div id="lbBody"></div><p id="lbCap"></p></div>
 
