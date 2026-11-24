@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; frame-src https://www.openstreetmap.org; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex, nofollow">
   <title>Panel del sensei</title>
   <meta name="theme-color" content="#111114">
@@ -12,14 +14,15 @@
 </head>
 <body class="pn">
 
-<!-- Bloqueo con PIN (opcional) -->
+<!-- Bloqueo con contraseña (datos cifrados) -->
 <div class="lock" id="lock" hidden>
   <form class="lock-box" id="lockForm">
     <span class="logo big-logo">帳</span>
-    <h1>Panel del sensei</h1>
-    <p>Ingresa tu PIN</p>
-    <input id="lockPin" type="password" inputmode="numeric" autocomplete="current-password" maxlength="12" required>
-    <button class="btn btn-block">Entrar</button>
+    <h1 id="lockTitle">Panel del sensei</h1>
+    <p id="lockMsg"></p>
+    <input id="lockPin" type="password" autocomplete="current-password" maxlength="64" placeholder="Contraseña" required>
+    <input id="lockPin2" type="password" autocomplete="new-password" maxlength="64" placeholder="Repite la contraseña" hidden>
+    <button class="btn btn-block" id="lockBtn">Entrar</button>
     <small id="lockErr"></small>
   </form>
 </div>
@@ -27,6 +30,7 @@
 <header class="pn-nav">
   <a class="brand" href="index.html"><span class="logo">空</span><span><span id="clubName">Karate</span><small>Panel del sensei</small></span></a>
   <div class="pn-nav-act">
+    <button class="ibtn" id="btnLock" aria-label="Bloquear panel">🔒</button>
     <button class="ibtn" id="btnCfg" aria-label="Ajustes y copias">⚙️</button>
   </div>
 </header>
@@ -86,12 +90,15 @@
       <p class="hint">Puedes usar: <code>{contacto}</code> <code>{alumno}</code> <code>{monto}</code> <code>{fecha}</code> <code>{cuando}</code> <code>{club}</code> <code>{yape}</code> <code>{dias_clase}</code> · <button type="button" class="link" id="btnMsgReset">restaurar mensajes</button></p>
 
       <h3>Seguridad</h3>
-      <label>PIN para abrir el panel (vacío = sin PIN)<input name="pin" type="password" inputmode="numeric" maxlength="12" placeholder="••••" autocomplete="new-password"></label>
-      <p class="hint">El PIN evita que alguien que tome tu celular vea la lista. Los datos nunca se suben a internet ni a GitHub.</p>
+      <div class="fgrid">
+        <label>Bloquear tras (minutos sin usar)<input name="bloqueoMin" type="number" min="1" max="60"></label>
+        <label>Cambiar contraseña (opcional)<input name="nuevaPass" type="password" minlength="8" maxlength="64" autocomplete="new-password" placeholder="Nueva contraseña"></label>
+      </div>
+      <p class="hint">Tus datos están <b>cifrados</b> en este dispositivo con tu contraseña. Si la olvidas <b>no se pueden recuperar</b>; por eso guarda una copia de seguridad.</p>
 
       <h3>Copias de seguridad</h3>
       <div class="bk">
-        <button type="button" class="btn btn-sm" id="btnExport">💾 Descargar copia</button>
+        <button type="button" class="btn btn-sm" id="btnExport">💾 Copia cifrada</button>
         <label class="btn btn-sm btn-ghost2 file">📂 Restaurar copia<input type="file" id="fileImport" accept=".json,application/json" hidden></label>
         <button type="button" class="btn btn-sm btn-ghost2" id="btnCsv">📊 Exportar a Excel</button>
       </div>
@@ -100,6 +107,16 @@
     </div>
     <div class="dlg-foot"><button type="button" class="btn btn-ghost2" data-close>Cerrar</button><button class="btn" value="ok">Guardar ajustes</button></div>
   </form>
+</dialog>
+
+<dialog class="dlg" id="dlgRestore">
+  <div class="dlg-head"><h2>Restaurar copia</h2><button type="button" class="x" data-close>×</button></div>
+  <div class="dlg-body">
+    <p id="restInfo" class="hint"></p>
+    <label>Contraseña con la que se hizo la copia<input id="restPass" type="password" autocomplete="off" maxlength="64"></label>
+    <small id="restErr" style="color:#f87171"></small>
+  </div>
+  <div class="dlg-foot"><button type="button" class="btn btn-ghost2" data-close>Cancelar</button><button type="button" class="btn" id="restGo">Restaurar</button></div>
 </dialog>
 
 <div class="toast" id="toast" role="status"></div>

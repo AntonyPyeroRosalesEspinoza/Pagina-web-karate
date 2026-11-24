@@ -3,74 +3,70 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Karate Tarma – Clases y tienda de karate</title>
-  <meta name="description" content="Academia de karate en Tarma, Junín. Clases lunes, miércoles y viernes por S/ 80 al mes. Tienda de karateguis, guantines, cinturones y protectores.">
-  <meta name="theme-color" content="#b3122a">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23b3122a'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='white'%3E空%3C/text%3E%3C/svg%3E">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.openstreetmap.org; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="referrer" content="no-referrer">
+  <title>Karate Tarma – Matrícula y clases</title>
+  <meta name="description" content="Academia de karate en Tarma, Junín. Matrícula abierta: clases lunes, miércoles y viernes por S/ 80 al mes.">
+  <meta name="theme-color" content="#09090a">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23d4af37'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23111'%3E空%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-<header class="nav" id="top">
-  <a class="brand" href="#inicio"><span class="logo">空</span><span id="brandName">Karate Tarma</span></a>
+<header class="nav">
+  <a class="brand" href="index.html"><span class="logo">空</span><span class="club-name">Karate Tarma</span></a>
   <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
   <nav id="menu">
-    <a href="#clases">Clases</a>
-    <a href="#tienda">Tienda</a>
+    <a href="#matricula">Matrícula</a>
+    <a href="tienda.html">Tienda</a>
     <a href="#torneos">Torneos</a>
     <a href="#galeria">Galería</a>
     <a href="#contacto">Contacto</a>
-    <a class="btn btn-sm" href="#clases">Inscríbete</a>
+    <a class="btn btn-sm" href="#ficha">Matricúlate</a>
   </nav>
 </header>
 
 <main>
-  <section class="hero" id="inicio">
-    <div class="hero-kanji" aria-hidden="true">空手</div>
-    <div class="wrap hero-in">
+  <!-- Portada: dos puertas, matrícula y tienda -->
+  <section class="hero2" id="inicio">
+    <div class="wrap hero2-top">
       <p class="eyebrow" id="heroCiudad">Tarma, Junín</p>
-      <h1>Forja tu <span>cuerpo</span>,<br>tu <span>mente</span> y tu <span>carácter</span></h1>
+      <h1><span class="club-name">Karate Tarma</span></h1>
       <p class="lead" id="heroLema"></p>
-      <div class="cta">
-        <a class="btn" href="#clases" id="ctaPrecio">Clases S/ 80 al mes</a>
-        <a class="btn btn-ghost" href="#tienda">Ver tienda</a>
-      </div>
-      <ul class="stats">
-        <li><b id="statPrecio">S/ 80</b><span>al mes</span></li>
-        <li><b id="statDias">Lun · Mié · Vie</b><span>3 clases por semana</span></li>
-        <li><b>Tienda</b><span>karateguis y protectores</span></li>
-      </ul>
+    </div>
+    <div class="doors">
+      <a class="door rv" href="#matricula">
+        <span class="door-k" aria-hidden="true">道場</span>
+        <small>Matrícula</small>
+        <h2>Entrena<br>con nosotros</h2>
+        <p id="doorDias">Lunes, miércoles y viernes</p>
+        <div class="door-price"><span class="gold" id="doorPrecio">S/ 80</span> <small>al mes</small></div>
+        <span class="btn">Matricúlate</span>
+      </a>
+      <a class="door rv" href="tienda.html">
+        <span class="door-k" aria-hidden="true">道具</span>
+        <svg class="door-art" viewBox="0 0 100 100" aria-hidden="true"><path d="M31 14 50 27 69 14 92 30 83 52 74 47V90H26V47l-9 5L8 30Z" fill="#f5f1e6"/><path d="M50 27 37 62M50 27l13 35" stroke="#cfc8b6" stroke-width="3" fill="none"/><rect x="26" y="58" width="48" height="8" fill="#d4af37"/><path d="M47 66 42 84h6l3-16zM53 66l5 18h-6l-3-16z" fill="#d4af37"/></svg>
+        <small>Tienda</small>
+        <h2>Equípate<br>para ganar</h2>
+        <p>Karateguis del 000 al 6 · guantines · cinturones · protectores</p>
+        <span class="btn btn-ghost">Ver productos</span>
+      </a>
     </div>
   </section>
 
-  <!-- Dos mundos: clases y tienda -->
-  <section class="split">
-    <a class="half half-dojo rv" href="#clases">
-      <span class="half-k" aria-hidden="true">道場</span>
-      <small>El dojo</small>
-      <h2>Entrena con nosotros</h2>
-      <p id="splitClases">Lunes, miércoles y viernes · S/ 80 al mes</p>
-      <span class="half-go">Ver horarios →</span>
-    </a>
-    <a class="half half-shop rv" href="#tienda">
-      <span class="half-k" aria-hidden="true">道具</span>
-      <small>La tienda</small>
-      <h2>Equípate para ganar</h2>
-      <p>Karateguis 000 al 6 · guantines · cinturones · protectores</p>
-      <span class="half-go">Ver productos →</span>
-    </a>
-  </section>
-
-  <section class="sec" id="clases">
+  <section class="sec" id="matricula">
     <div class="wrap">
-      <h2 class="title"><small>Clases</small>Una mensualidad, todo incluido</h2>
+      <h2 class="title"><small>Matrícula</small>Una mensualidad, todo incluido</h2>
       <div class="plan">
         <div class="plan-main rv">
           <span class="plan-tag">Mensualidad</span>
-          <div class="plan-price"><span>S/</span><b id="precioClase">80</b><small>/ mes</small></div>
+          <div class="plan-price"><span>S/</span><b class="gold" id="precioClase">80</b><small>/ mes</small></div>
           <div class="days" id="dias"></div>
           <ul class="check" id="incluye"></ul>
-          <a class="btn btn-block" id="btnInscribir" target="_blank" rel="noopener">Quiero inscribirme</a>
+          <a class="btn btn-block" href="#ficha">Llenar ficha de matrícula</a>
           <p class="plan-note" id="notaClases"></p>
         </div>
         <div class="plan-side rv">
@@ -83,24 +79,25 @@
           </div>
         </div>
       </div>
+
+      <form class="ficha rv" id="ficha">
+        <h3>Ficha de matrícula</h3>
+        <p>Completa los datos y envíalos por WhatsApp. Te confirmamos el grupo y la fecha de inicio.</p>
+        <div class="fgrid">
+          <label>Nombre del alumno *<input name="alumno" required autocomplete="off" maxlength="80"></label>
+          <label>Edad *<input name="edad" type="number" min="3" max="99" required></label>
+          <label>Apoderado (si es menor)<input name="apoderado" autocomplete="off" maxlength="80"></label>
+          <label>Celular *<input name="celular" type="tel" inputmode="tel" required maxlength="15" placeholder="987 654 321"></label>
+          <label>Grupo<select name="grupo" id="fichaGrupo"></select></label>
+          <label>Experiencia<select name="exp"><option>Nunca he practicado</option><option>Ya practiqué antes</option><option>Tengo cinturón de color</option></select></label>
+          <label class="full">Comentario<textarea name="comentario" rows="2" maxlength="300" placeholder="Alergias, lesiones, consultas…"></textarea></label>
+          <div class="full"><button class="btn btn-block" type="submit">Enviar ficha por WhatsApp</button></div>
+        </div>
+      </form>
     </div>
   </section>
 
-  <section class="sec shop" id="tienda">
-    <div class="wrap">
-      <h2 class="title"><small>Tienda</small>Equipo de karate</h2>
-      <p class="sub">Elige tu talla o color, agrega al pedido y envíalo por WhatsApp.</p>
-      <div class="filters" id="filtros"></div>
-      <div class="products" id="productos"></div>
-      <details class="sizes">
-        <summary>📏 Guía de tallas de karategi</summary>
-        <div class="sizes-tbl"><table><thead><tr><th>Talla</th><th>Estatura</th><th>Edad aprox.</th></tr></thead><tbody id="guia"></tbody></table></div>
-      </details>
-      <p class="note" id="notaTienda"></p>
-    </div>
-  </section>
-
-  <section class="sec dark" id="torneos">
+  <section class="sec alt" id="torneos">
     <div class="wrap">
       <h2 class="title"><small>Competencias</small>Próximos torneos</h2>
       <div class="timeline" id="listaTorneos"></div>
@@ -116,45 +113,26 @@
     </div>
   </section>
 
-  <section class="sec dark" id="contacto">
+  <section class="sec alt" id="contacto">
     <div class="wrap two">
       <div>
         <h2 class="title"><small>Hablemos</small>Contacto</h2>
         <ul class="info" id="info"></ul>
         <div class="social" id="social"></div>
       </div>
-      <form class="form" id="form">
-        <h3>Pide información</h3>
-        <label>Nombre<input name="nombre" required autocomplete="name"></label>
-        <label>Edad del alumno<input name="edad" type="number" min="3" max="99" required></label>
-        <label>Mensaje<textarea name="mensaje" rows="3" placeholder="Quiero inscribirme / más información"></textarea></label>
-        <button class="btn" type="submit">Enviar por WhatsApp</button>
-      </form>
+      <iframe class="map" id="mapa" title="Ubicación del dojo" loading="lazy"></iframe>
     </div>
-    <div class="wrap"><iframe class="map" id="mapa" title="Ubicación en Tarma" loading="lazy"></iframe></div>
   </section>
 </main>
 
 <footer><p id="foot"></p><a class="foot-link" href="panel.html">Panel del sensei</a></footer>
 
-<!-- Carrito -->
-<button class="cart-btn" id="cartBtn" aria-label="Ver pedido" hidden>🛒 <span id="cartCount">0</span></button>
 <a class="wa" id="waFloat" target="_blank" rel="noopener" aria-label="WhatsApp">💬 <span>WhatsApp</span></a>
-<div class="drawer-bg" id="drawerBg" hidden></div>
-<aside class="drawer" id="drawer" aria-label="Tu pedido" aria-hidden="true">
-  <div class="drawer-head"><h3>Tu pedido</h3><button id="drawerClose" aria-label="Cerrar">×</button></div>
-  <div class="drawer-body" id="cartList"></div>
-  <div class="drawer-foot">
-    <div class="total"><span>Total</span><b id="cartTotal">S/ 0</b></div>
-    <button class="btn btn-block" id="cartSend">Enviar pedido por WhatsApp</button>
-    <button class="link" id="cartClear">Vaciar pedido</button>
-  </div>
-</aside>
 <div class="toast" id="toast" role="status"></div>
-
 <div class="lightbox" id="lb" hidden><button id="lbClose" aria-label="Cerrar">×</button><div id="lbBody"></div><p id="lbCap"></p></div>
 
 <script src="js/datos.js"></script>
+<script src="js/comun.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
