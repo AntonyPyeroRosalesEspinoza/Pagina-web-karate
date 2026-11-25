@@ -30,7 +30,7 @@ const DATOS = {
     dias: ["Lunes", "Miércoles", "Viernes"],
     horarios: [
       { grupo: "Niños",   edad: "5 – 11 años",  hora: "4:00 – 5:00 pm" },
-      { grupo: "Juvenil", edad: "12 – 17 años", hora: "5:00 – 6:00 pm" },
+      { grupo: "Jóvenes", edad: "12 – 17 años", hora: "5:00 – 6:00 pm" },
       { grupo: "Adultos", edad: "18+ años",     hora: "6:00 – 7:30 pm" }
     ],
     incluye: [

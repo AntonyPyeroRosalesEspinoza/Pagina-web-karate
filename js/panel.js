@@ -86,47 +86,89 @@ function descargar(nombre,contenido,tipo){const b=new Blob([contenido],{type:tip
   const a=document.createElement("a");a.href=u;a.download=nombre;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
 
 // ---------- render ----------
-let filtro="todos";
+let filtro="todos", grupoSel="todos";
 $("#clubName").textContent=D.club.nombre;
 if(!storageOk)$("#storeWarn").hidden=false;
 
+// Grupos (catálogo): salen de los horarios de datos.js
+const GRUPOS=D.clases.horarios.map(h=>h.grupo);
+const ALIAS={juvenil:"Jóvenes",jovenes:"Jóvenes","jóvenes":"Jóvenes",joven:"Jóvenes",nino:"Niños","niño":"Niños","niños":"Niños",ninos:"Niños",adulto:"Adultos",adultos:"Adultos"};
+const ICO_G={"Niños":"🧒","Jóvenes":"🧑","Adultos":"🧔"};
+function grupoDe(a){
+  const g=String(a.grupo||"").trim();
+  if(GRUPOS.includes(g))return g;
+  const al=ALIAS[g.toLowerCase()];if(al&&GRUPOS.includes(al))return al;
+  const e=+a.edad; // sin grupo: se deduce por la edad
+  if(e){const n=e<12?"Niños":e<18?"Jóvenes":"Adultos";if(GRUPOS.includes(n))return n}
+  return "Sin grupo";
+}
+
+function filaAlumno(a){
+  const e=estado(a),n=diff(a.vence);
+  const sub=[a.cinturon&&("Cinturón "+a.cinturon.toLowerCase()),a.edad&&(a.edad+" años"),a.apoderado&&("👤 "+a.apoderado)].filter(Boolean).map(esc).join(" · ");
+  const extra=[a.avisado?`<span class="r-aviso">✓ Avisado ${fcorta(a.avisado)}</span>`:"",a.notas?`<span class="r-nota">📝 ${esc(a.notas)}</span>`:""].join("");
+  return `<article class="al row st-${e}" data-id="${esc(a.id)}">
+    <div class="c-name"><b>${esc(a.nombre)}</b><small>${sub||"&nbsp;"}</small>${extra?`<div class="r-extra">${extra}</div>`:""}</div>
+    <div class="c-tel">${a.whatsapp?`📱 ${esc(fmtTel(a.whatsapp))}`:"<i>sin número</i>"}</div>
+    <div class="c-due"><b>${flarga(a.vence)}</b>${e!=="inactivo"?`<span>${cuando(n)}</span>`:""}</div>
+    <div class="c-st"><span class="pill p-${e}">${ETQ[e]}</span></div>
+    <div class="c-amt">${sol(a.monto)}</div>
+    <div class="c-act">
+      <button class="b-wa" data-act="wa" title="Enviar aviso por WhatsApp">💬 <span>Avisar</span></button>
+      <button class="b-pay" data-act="pago" title="Registrar pago">✓ <span>Pagó</span></button>
+      <button class="b-ic" data-act="edit" aria-label="Editar" title="Editar">✏️</button>
+      <button class="b-ic" data-act="del" aria-label="Eliminar" title="Eliminar">🗑️</button>
+    </div></article>`;
+}
+const CABECERA=`<div class="row row-head" aria-hidden="true"><div>Alumno</div><div>WhatsApp</div><div>Vence</div><div>Estado</div><div>Monto</div><div>Acciones</div></div>`;
+
 function render(){
-  if(!llave){$("#kpis").innerHTML="";$("#lista").innerHTML="";$("#fchips").innerHTML="";return}
+  if(!llave){$("#kpis").innerHTML="";$("#lista").innerHTML="";$("#fchips").innerHTML="";$("#gchips").innerHTML="";return}
   const q=$("#q").value.trim().toLowerCase();
-  const cnt={todos:0,porvencer:0,vencido:0,aldia:0,inactivo:0};
-  alumnos.forEach(a=>{const e=estado(a);cnt[e]++;if(e!=="inactivo")cnt.todos++});
+  const enGrupo=a=>grupoSel==="todos"||grupoDe(a)===grupoSel;
+
+  // KPIs (de toda la academia)
+  const tot={activos:0,porvencer:0,vencido:0};
+  alumnos.forEach(a=>{const e=estado(a);if(e!=="inactivo")tot.activos++;if(e==="porvencer")tot.porvencer++;if(e==="vencido")tot.vencido++});
   const mesAct=hoy().slice(0,7);
   const cobrado=alumnos.reduce((s,a)=>s+(a.pagos||[]).filter(p=>String(p.fecha).slice(0,7)===mesAct).reduce((x,p)=>x+(+p.monto||0),0),0);
   $("#kpis").innerHTML=`
-    <button class="kpi" data-f="todos"><b>${cnt.todos}</b><span>Alumnos activos</span></button>
-    <button class="kpi k-warn" data-f="porvencer"><b>${cnt.porvencer}</b><span>Por vencer (≤ ${cfg.dias} días)</span></button>
-    <button class="kpi k-bad" data-f="vencido"><b>${cnt.vencido}</b><span>Vencidos</span></button>
+    <button class="kpi" data-f="todos"><b>${tot.activos}</b><span>Alumnos activos</span></button>
+    <button class="kpi k-warn" data-f="porvencer"><b>${tot.porvencer}</b><span>Por vencer (≤ ${cfg.dias} días)</span></button>
+    <button class="kpi k-bad" data-f="vencido"><b>${tot.vencido}</b><span>Vencidos</span></button>
     <div class="kpi k-ok"><b>${sol(cobrado)}</b><span>Cobrado en ${MES[new Date().getMonth()]}</span></div>`;
+
+  // Catálogo por grupo (cuenta alumnos activos)
+  const cg={todos:0};alumnos.forEach(a=>{if(estado(a)==="inactivo")return;const g=grupoDe(a);cg[g]=(cg[g]||0)+1;cg.todos++});
+  const tabs=[["todos","Todos","👥"],...GRUPOS.map(g=>[g,g,ICO_G[g]||"🥋"]),...(cg["Sin grupo"]?[["Sin grupo","Sin grupo","❔"]]:[])];
+  $("#gchips").innerHTML=tabs.map(([k,t,i])=>`<button class="gtab${grupoSel===k?" on":""}" data-g="${esc(k)}"><span class="gi">${i}</span><span class="gt">${esc(t)}</span><b>${cg[k]||0}</b></button>`).join("");
+
+  // Filtros de estado (dentro del grupo elegido)
+  const cnt={todos:0,porvencer:0,vencido:0,aldia:0,inactivo:0};
+  alumnos.filter(enGrupo).forEach(a=>{const e=estado(a);cnt[e]++;if(e!=="inactivo")cnt.todos++});
   const F=[["todos","Activos"],["porvencer","Por vencer"],["vencido","Vencidos"],["aldia","Al día"],["inactivo","Inactivos"]];
   $("#fchips").innerHTML=F.map(([k,t])=>`<button class="chip${filtro===k?" on":""}" data-f="${k}">${t}<i>${cnt[k]}</i></button>`).join("");
 
   const orden={vencido:0,porvencer:1,aldia:2,inactivo:3};
   const lista=alumnos.filter(a=>{const e=estado(a);
+      if(!enGrupo(a))return false;
       if(filtro==="todos"?e==="inactivo":e!==filtro)return false;
       return !q||[a.nombre,a.apoderado,a.whatsapp,a.grupo].join(" ").toLowerCase().includes(q)})
     .sort((a,b)=>orden[estado(a)]-orden[estado(b)]||a.vence.localeCompare(b.vence)||a.nombre.localeCompare(b.nombre));
 
-  $("#lista").innerHTML=lista.length?lista.map(a=>{const e=estado(a),n=diff(a.vence);
-    const meta=[a.whatsapp?`📱 ${esc(fmtTel(a.whatsapp))}`:"",a.apoderado?`👤 ${esc(a.apoderado)}`:"",`💵 ${sol(a.monto)}`].filter(Boolean).join("</span><span>");
-    const sub=[a.grupo,a.cinturon&&("Cinturón "+a.cinturon.toLowerCase()),a.edad&&(a.edad+" años")].filter(Boolean).map(esc).join(" · ");
-    return `<article class="al st-${e}" data-id="${esc(a.id)}">
-      <div class="al-top"><div><h3>${esc(a.nombre)}</h3><small>${sub||"&nbsp;"}</small></div><span class="pill p-${e}">${ETQ[e]}</span></div>
-      <div class="al-due"><b>Vence: ${flarga(a.vence)}</b>${e!=="inactivo"?`<span>${cuando(n)}</span>`:""}</div>
-      <div class="al-meta"><span>${meta}</span></div>
-      ${a.avisado?`<div class="al-aviso">✓ Avisado el ${fcorta(a.avisado)}</div>`:""}
-      ${a.notas?`<small>📝 ${esc(a.notas)}</small>`:""}
-      <div class="al-act">
-        <button class="b-wa" data-act="wa">💬 Avisar</button>
-        <button class="b-pay" data-act="pago">✓ Pagó</button>
-        <button class="b-ic" data-act="edit" aria-label="Editar">✏️</button>
-        <button class="b-ic" data-act="del" aria-label="Eliminar">🗑️</button>
-      </div></article>`}).join("")
-   :`<div class="empty-st">${alumnos.length?"<b>Nadie en esta lista</b>Prueba con otro filtro o búsqueda.":"<b>Aún no hay alumnos</b>Toca «+ Nuevo alumno» para registrar el primero."}</div>`;
+  let html;
+  if(!lista.length){
+    html=`<div class="empty-st">${alumnos.length?"<b>Nadie en esta lista</b>Prueba con otro grupo, filtro o búsqueda.":"<b>Aún no hay alumnos</b>Toca «+ Nuevo alumno» para registrar el primero."}</div>`;
+  }else if(grupoSel==="todos"){
+    // vista catálogo: una sección por grupo
+    const orden2=[...GRUPOS,"Sin grupo"];
+    html=orden2.map(g=>{const xs=lista.filter(a=>grupoDe(a)===g);if(!xs.length)return "";
+      const hz=D.clases.horarios.find(h=>h.grupo===g);
+      return `<section class="gsec"><h3 class="gsec-h"><span>${ICO_G[g]||"❔"} ${esc(g)}</span><small>${hz?esc(hz.edad+" · "+hz.hora):""}</small><b>${xs.length}</b></h3>${CABECERA}${xs.map(filaAlumno).join("")}</section>`}).join("");
+  }else{
+    html=`<section class="gsec">${CABECERA}${lista.map(filaAlumno).join("")}</section>`;
+  }
+  $("#lista").innerHTML=html;
 
   const dias=cfg.ultimoBackup?Math.floor((Date.now()-new Date(cfg.ultimoBackup))/864e5):null;
   $("#backupWarn").hidden=!(storageOk&&alumnos.length&&(dias===null||dias>=7));
@@ -134,7 +176,9 @@ function render(){
 
 // ---------- eventos de la lista ----------
 $("#q").addEventListener("input",render);
-document.addEventListener("click",e=>{const b=e.target.closest("[data-f]");if(!b||!llave)return;filtro=b.dataset.f;render()});
+document.addEventListener("click",e=>{if(!llave)return;
+  const g=e.target.closest("[data-g]");if(g){grupoSel=g.dataset.g;render();return}
+  const b=e.target.closest("[data-f]");if(b){filtro=b.dataset.f;render()}});
 $("#lista").addEventListener("click",e=>{
   const b=e.target.closest("[data-act]");if(!b)return;
   const a=alumnos.find(x=>x.id===b.closest(".al").dataset.id);if(!a)return;
@@ -166,6 +210,8 @@ function abrirForm(a){
   const v=a||{nombre:"",apoderado:"",whatsapp:"",edad:"",grupo:"",cinturon:"Blanco",monto:cfg.monto,inicio:hoy(),vence:addMonths(hoy(),1),notas:"",activo:true};
   ["nombre","apoderado","whatsapp","edad","grupo","cinturon","monto","inicio","vence","notas"].forEach(k=>fA.elements[k].value=v[k]??"");
   fA.elements.activo.checked=v.activo!==false;
+  if(a){const g=grupoDe(a);fA.elements.grupo.value=GRUPOS.includes(g)?g:""}
+  else if(grupoSel!=="todos"&&GRUPOS.includes(grupoSel))fA.elements.grupo.value=grupoSel;
   const pg=(a&&a.pagos)||[];
   $("#fPagos").innerHTML=pg.length?`<b>Historial de pagos</b><ul>${pg.slice().reverse().slice(0,12).map(p=>`<li><span>${fcorta(p.fecha)}</span><span>${sol(p.monto)}</span></li>`).join("")}</ul>`:"";
   dlgA.showModal();
